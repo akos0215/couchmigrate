@@ -6,6 +6,7 @@ import { DBSettings } from './model';
 export class CouchDBClient {
 
   db: any;
+  nano: any;
   logger: Logger;
 
   constructor(dbSettings: DBSettings, logger: Logger) {
@@ -13,10 +14,12 @@ export class CouchDBClient {
 
     const url = (dbSettings.dbURL) ?
       `${dbSettings.dbURL}/${dbSettings.dbName}` :
-      `https://${dbSettings.dbUsername}:${dbSettings.dbPassword}@${dbSettings.dbUsername}.${dbSettings.dbHost}/${dbSettings.dbName}`;
+      dbSettings.dbHost.startsWith('localhost') ?
+      `http://${dbSettings.dbUsername}:${dbSettings.dbPassword}@${dbSettings.dbHost}` :
+      `https://${dbSettings.dbUsername}:${dbSettings.dbPassword}@${dbSettings.dbUsername}.${dbSettings.dbHost}`;
 
     // tslint:disable-next-line: no-require-imports
-    return require('nano')({
+    this.nano = require('nano')({
       url,
       requestDefaults: {
         timeout: 10000,
@@ -26,19 +29,14 @@ export class CouchDBClient {
         },
       },
     });
+
+    this.db = this.nano.use(dbSettings.dbName);
+
   }
 
   async copyDocument(sourceId: string, destinationId: string): Promise<void> {
-    /* steps :
-        1. Fetch source document
-        2. Fetch destination document
-        3. Overwrite the Destination
 
-    */
-    const sourceDoc = await this.fetchDocument(sourceId);
-    const destinationDoc = await this.fetchDocument(destinationId);
-
-    return this.upsertDocument(sourceDoc, destinationDoc ? destinationDoc : {_id: destinationId});
+    return this.db.copy(sourceId, destinationId, { overwrite: true });
   }
 
   async deleteDocument(docId: string): Promise<any> {
@@ -64,15 +62,30 @@ export class CouchDBClient {
     return this.db.get(documentId);
   }
 
-  async upsertDocument(sourceDocument: any, destinationDocument: any): Promise<void> {
+  async upsertDocument(document: any): Promise<void> {
 
-      // overwrite the destination
-      this.logger.log('## copy Document - Writing new to ', destinationDocument._id);
-      sourceDocument._id = destinationDocument._id;
-      sourceDocument._rev = destinationDocument ? destinationDocument._rev : undefined;
-      this.logger.log('## copydoc - contents', sourceDocument);
+    let storedDoc;
+    try {
+      storedDoc = await this.fetchDocument(document._id);
+    } catch (e) {
+      if (e.message === 'missing' || e.message === 'deleted')
+        this.logger.log(`fetching doc ${document._id} failed. `, e);
+      else throw e;
+    }
+    document._rev = storedDoc ? storedDoc._rev : undefined;
 
-      return this.db.insert(sourceDocument);
+    return this.db.insert(document);
   }
 
+  async view(docName: string, viewName: string, options: any): Promise<any> {
+    return this.db.view(docName, viewName, options);
+  }
+
+  async search(docName: string, searchName: string, options: any): Promise<any> {
+    return this.db.search(docName, searchName, options);
+  }
+
+  async request(options: any): Promise<any> {
+    return this.nano.request(options);
+  }
 }

@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as minimist from 'minimist';
-import { DesignDocUpdater } from 'DesignDocUpdater';
 
+import { updateDesignDocument } from './DesignDocUpdater';
 import { DBSettings } from './model/settings';
 
 export const setUpAndCallMigration = async (dbName: string, docName: string, data: any): Promise<void> => {
@@ -14,9 +14,8 @@ export const setUpAndCallMigration = async (dbName: string, docName: string, dat
     dbPassword: process.env.DBPASSWORD,
     dbUsername: process.env.DBUSERNAME,
   };
-  const ddUpdater = new DesignDocUpdater(settings);
 
-  return ddUpdater.updateDesignDocument(docName, data);
+  return updateDesignDocument(settings, docName, data);
 };
 
 (async () => {

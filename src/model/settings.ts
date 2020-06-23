@@ -1,6 +1,6 @@
 export interface DBSettings {
 
-    dbURL: string;
+    dbURL?: string;
     dbName: string;
     dbUsername: string;
     dbPassword: string;
