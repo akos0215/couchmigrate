@@ -1,6 +1,6 @@
 {
   "name": "safe-couch-design-doc-upserter",
-  "version": "0.7.3",
+  "version": "1.0.0",
   "description": "CouchDB design document upserter tool extended by API",
   "repository": "https://github.com/akos0215/couchmigrate.git",
   "keywords": [
@@ -27,8 +27,8 @@
   "dependencies": {
     "async": "3.2.0",
     "delay": "4.3.0",
-    "lodash": "^4.17.15",
-    "minimist": "^1.2.5",
+    "lodash": "4.17.15",
+    "minimist": "1.2.5",
     "nano": "8.2.2",
     "promise": "8.1.0",
     "ts-node": "8.5.4",
@@ -36,13 +36,13 @@
     "winston": "3.2.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/lodash": "^4.14.155",
-    "@types/minimist": "^1.2.0",
-    "@types/mocha": "^7.0.2",
+    "@types/chai": "4.2.11",
+    "@types/lodash": "4.14.155",
+    "@types/minimist": "1.2.0",
+    "@types/mocha": "7.0.2",
     "@types/nano": "7.0.0",
     "@types/node": "14.0.13",
-    "chai": "^4.2.0",
+    "chai": "4.2.0",
     "mocha": "5.2.0",
     "nyc": "15.1.0",
     "rimraf": "3.0.2",
