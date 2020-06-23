@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as minimist from 'minimist';
 
-import { updateDesignDocument } from './DesignDocUpdater';
+import { updateDesignDocument } from './updateDesignDocument';
 import { DBSettings } from './model/settings';
 
 export const setUpAndCallMigration = async (dbName: string, docName: string, data: any): Promise<void> => {

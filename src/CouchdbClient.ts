@@ -57,7 +57,7 @@ export class CouchDBClient {
   }
 
   async fetchDocument(documentId: string): Promise<any> {
-    this.logger.log('## copydoc - Fetching from', documentId);
+    this.logger.log('## copydoc - Fetching doc ', documentId);
 
     return this.db.get(documentId);
   }

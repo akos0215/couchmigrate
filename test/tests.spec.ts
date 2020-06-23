@@ -2,7 +2,7 @@ import { createLogger } from 'winston';
 import * as chai from 'chai';
 
 import { DBSettings } from '../src/model';
-import { updateDesignDocument } from '../src/DesignDocUpdater';
+import { updateDesignDocument } from '../src/updateDesignDocument';
 
 import { CouchDBClient } from './../src/CouchdbClient';
 
@@ -25,7 +25,7 @@ describe('test migration API endpoint - trivial tests', () => {
     chai.assert.isNotNull(dbClient);
   });
 
-  it.only('test', async () => {
+  it('test', async () => {
 
     // TODO set up local Cloudant Docker Image
     const logger = createLogger();
