@@ -1,0 +1,19 @@
+{
+    "_id": "_design/app",
+    "views": {
+      "active": {
+        "reduce": "_count",
+        "map": "function (doc) { if (doc._id == '_design/app') return; emit(doc._id);}"
+      },
+      "new-view": {
+        "map": "function(doc) {\n  if (doc._id == '_design/app') return;\n  if (doc._id.indexOf('new') > -1) emit(doc);\n}"
+      }
+      
+    },
+    "indexes": {
+      "active": {
+        "analyzer": "standard",
+        "index": "function (doc) { if (doc._id == '_design/app') return; index('id', doc._id); }"
+      }
+    }
+  }

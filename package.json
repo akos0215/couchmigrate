@@ -1,6 +1,6 @@
 {
   "name": "safe-couch-design-doc-upserter",
-  "version": "0.7.3",
+  "version": "1.0.0",
   "description": "CouchDB design document upserter tool extended by API",
   "repository": "https://github.com/akos0215/couchmigrate.git",
   "keywords": [
@@ -13,9 +13,9 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node ./dist/app.js",
     "build": "tsc -d --project ./src/tsconfig.json",
-    "test": "mocha --ui bdd test/**/*.spec.js",
+    "test": "mocha --ui bdd test/**/*.spec.ts",
     "coverage": "nyc npm test",
     "clean": "rimraf node_modules .nyc_output coverage"
   },
@@ -25,19 +25,31 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "async": "^2.5.0",
-    "chai": "^4.1.2",
-    "mocha": "^5.0.5",
-    "nano": "^6.4.0",
-    "nyc": "^11.6.0",
-    "promise": "^8.0.1",
-    "rimraf": "^2.6.2",
-    "sinon": "^4.5.0",
-    "winston": "3.0.0-rc6",
-    "yargs": "^8.0.2"
+    "async": "3.2.0",
+    "delay": "4.3.0",
+    "lodash": "4.17.15",
+    "minimist": "1.2.5",
+    "nano": "8.2.2",
+    "promise": "8.1.0",
+    "ts-node": "8.5.4",
+    "typescript": "3.8.3",
+    "winston": "3.2.1"
   },
   "devDependencies": {
-    "@types/nano": "^6.4.2"
+    "@types/chai": "4.2.11",
+    "@types/lodash": "4.14.155",
+    "@types/minimist": "1.2.0",
+    "@types/mocha": "7.0.2",
+    "@types/nano": "7.0.0",
+    "@types/node": "14.0.13",
+    "chai": "4.2.0",
+    "mocha": "5.2.0",
+    "nyc": "15.1.0",
+    "rimraf": "3.0.2",
+    "sinon": "9.0.2",
+    "tslint": "5.19.0",
+    "tslint-config-prettier": "1.13.0",
+    "tslint-microsoft-contrib": "6.2.0"
   },
   "bin": {
     "couchupsert": "bin/couchupsert.bin.js"
@@ -46,6 +58,10 @@
     "dist/",
     "bin/"
   ],
+  "engines": {
+    "node": "10.18.1",
+    "npm": "5.6.0"
+  },
   "directories": {
     "test": "test"
   }
